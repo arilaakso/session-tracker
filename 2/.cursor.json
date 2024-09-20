@@ -1,0 +1,11 @@
+{
+  "run": {
+    "command": "python ${workspaceFolder}/main.py",
+    "shell": true
+  },
+  "debug": {
+    "type": "python",
+    "request": "launch",
+    "name": "Python: Main"
+  }
+}

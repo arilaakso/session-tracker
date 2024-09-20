@@ -1,0 +1,31 @@
+# Python cache files
+__pycache__/
+*.py[cod]
+
+# Virtual environment
+venv/
+env/
+
+# Log files
+*.log
+
+# IDE specific files
+.vscode/
+.idea/
+
+# Compiled Python files
+*.pyc
+
+# Backup files
+*~
+
+# Build artifacts and executables
+*.spec
+build/
+dist/
+*.exe
+*.app
+*.dmg
+
+# Session logs
+session_logs.csv
