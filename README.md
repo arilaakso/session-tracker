@@ -2,6 +2,8 @@
 
 Session Tracker is a simple, user-friendly application designed to help you monitor and log your work sessions automatically. It tracks your active time on the computer and provides a summary of your daily activities.
 
+![Session Tracker UI](images/session_tracker_ui.png)
+
 ## Features
 
 - Automatic session tracking based on user activity
