@@ -1,6 +1,6 @@
 # Session Tracker
 
-Session Tracker is a simple, user-friendly application designed to help you monitor and log your work sessions automatically. It tracks your active time on the computer and provides a summary of your daily activities.
+Session Tracker is a simple, user-friendly Windows application designed to help you monitor and log your work sessions automatically. It tracks your active time on the computer and provides a summary of your daily activities.
 
 ![Session Tracker UI](images/session_tracker_ui.png)
 
@@ -98,7 +98,7 @@ To set up the development environment:
 1. Create a virtual environment:
    ```bash
    python -m venv venv
-   source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+   .\venv\Scripts\activate
    ```
 
 2. Install the development dependencies:
