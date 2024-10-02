@@ -16,7 +16,7 @@ if not os.path.exists(config_file):
         'WINDOW_WIDTH': '550',
         'WINDOW_HEIGHT': '450'
     }
-    with open(config_file, 'w') as configfile:
+    with open(config_file, 'w', encoding='utf-8') as configfile: 
         config.write(configfile)
 
 config.read(config_file)
