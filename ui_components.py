@@ -34,9 +34,6 @@ def create_summary_text(parent, fixed_font):
     summary_frame = tk.Frame(parent, bg='#2b2b2b')
     summary_frame.pack(pady=10, padx=10, fill=tk.X)
 
-    summary_label = tk.Label(summary_frame, text="Daily Totals", bg='#2b2b2b', fg='white')
-    summary_label.pack()
-
     summary_text_frame = tk.Frame(summary_frame, bg='#2b2b2b')
     summary_text_frame.pack(fill=tk.X, expand=True)
 
