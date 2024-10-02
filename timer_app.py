@@ -1,20 +1,25 @@
-import tkinter as tk
-from tkinter import ttk, Canvas
-from datetime import datetime, timedelta
+import ctypes
 import os
+import threading
+import tkinter as tk
+from datetime import datetime, timedelta
+from tkinter import Canvas, ttk
+from typing import Any, Dict, Optional
+
 import pandas as pd
-from typing import Dict, Any, Optional
 import pystray
 from PIL import Image, ImageDraw
-import threading
-import ctypes
 
-from config import IDLE_THRESHOLD, CHECK_INTERVAL, LOG_FILE, BUTTON_WIDTH, WINDOW_WIDTH, WINDOW_HEIGHT
-from ui_components import create_custom_fonts, set_dark_theme, create_listbox, create_summary_text
+from config import (BUTTON_WIDTH, CHECK_INTERVAL, IDLE_THRESHOLD, LOG_FILE,
+                    WINDOW_HEIGHT, WINDOW_WIDTH)
+from ui_components import (create_custom_fonts, create_listbox,
+                           create_summary_text, set_dark_theme)
+
+# pylint: disable=attribute-defined-outside-init
 
 class LASTINPUTINFO(ctypes.Structure):
     """Structure to hold last input info for Windows API."""
-    _fields_ = [('cbSize', ctypes.c_uint), ('dwTime', ctypes.c_uint)]
+    _fields_ = [('cbSize', ctypes.c_uint), ('dwTime', ctypes.c_uint)]  # pylint: disable=attribute-defined-outside-init
 
 def get_idle_duration():
     last_input = LASTINPUTINFO()
@@ -135,7 +140,7 @@ class SessionTracker:
         if self.is_running and self.session_start:
             current_time = datetime.now()
             duration = current_time - self.session_start
-            duration_str = str(duration).split('.')[0]
+            duration_str = str(duration).split('.', maxsplit=1)[0]  # pylint: disable=C0207
             self.start_time_label.config(text=f"Start Time: {self.session_start.strftime('%Y-%m-%d %H:%M:%S')}")
             self.duration_label.config(text=f"Duration: {duration_str}")
         else:
@@ -252,7 +257,7 @@ class SessionTracker:
         )
         self.icon = pystray.Icon("session_tracker", self.icon_image, "Session Tracker", menu)
         
-        def setup(icon: 'pystray.Icon') -> None:
+        def setup(icon: 'pystray.Icon') -> None: # type: ignore
             icon.visible = True
         
         self.icon_thread = threading.Thread(target=self.icon.run, args=(setup,))
