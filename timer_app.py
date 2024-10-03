@@ -78,8 +78,8 @@ class SessionTracker:
         self.timer_frame = tk.Frame(self.root, bg='#2b2b2b')
         self.timer_frame.pack(pady=10, fill=tk.X)
 
-        self.start_time_label = tk.Label(self.timer_frame, text="Start Time: Not started", bg='#2b2b2b', fg='white', font=self.bold_font)
-        self.start_time_label.pack(side=tk.LEFT, padx=(10, 0))
+        self.total_today_label = tk.Label(self.timer_frame, text="Total Today: 00:00:00", bg='#2b2b2b', fg='white', font=self.bold_font)
+        self.total_today_label.pack(side=tk.LEFT, padx=(10, 0))
 
         self.duration_label = tk.Label(self.timer_frame, text="Duration: 00:00:00", bg='#2b2b2b', fg='white', font=self.bold_font)
         self.duration_label.pack(side=tk.LEFT, padx=(20, 0))
@@ -137,15 +137,19 @@ class SessionTracker:
             self.icon.icon = self.icon_image
 
     def update_timer(self) -> None:
+        current_time = datetime.now()
+        total_today = self.calculate_total_today()
+        
         if self.is_running and self.session_start:
-            current_time = datetime.now()
             duration = current_time - self.session_start
-            duration_str = str(duration).split('.', maxsplit=1)[0]  # pylint: disable=C0207
-            self.start_time_label.config(text=f"Start Time: {self.session_start.strftime('%Y-%m-%d %H:%M:%S')}")
+            total_today += duration
+            duration_str = str(duration).split('.', maxsplit=1)[0]
             self.duration_label.config(text=f"Duration: {duration_str}")
         else:
-            self.start_time_label.config(text="Start Time: Not started")
             self.duration_label.config(text="Duration: 00:00:00")
+        
+        total_today_str = str(total_today).split('.', maxsplit=1)[0]
+        self.total_today_label.config(text=f"Total Today: {total_today_str}")
         
         self.update_status_indicator()
         self.root.after(1000, self.update_timer)
@@ -185,6 +189,7 @@ class SessionTracker:
         self.listbox.insert(0, self.format_log_entry(log_entry))
         self.save_logs()
         self.update_daily_summary()
+        self.update_timer()
 
     def load_logs(self) -> None:
         """Load existing session logs from file."""
@@ -303,3 +308,13 @@ class SessionTracker:
             self.icon_thread.join(timeout=1.0)
         self.root.quit()
         self.root.destroy()
+
+    def calculate_total_today(self) -> timedelta:
+        today = datetime.now().date()
+        total_duration = timedelta()
+        for log in self.logs:
+            start_time = datetime.strptime(log['StartTime'], "%Y-%m-%d %H:%M:%S")
+            if start_time.date() == today:
+                duration = datetime.strptime(log['Duration'], "%H:%M:%S")
+                total_duration += timedelta(hours=duration.hour, minutes=duration.minute, seconds=duration.second)
+        return total_duration
